@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d6efd" />
+      <stop offset="100%" stop-color="#0dcaf0" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background shape -->
+  <rect x="5" y="5" width="50" height="50" rx="10" fill="#212529" />
+  
+  <!-- Spider web icon -->
+  <path d="M30 15c-8.284 0-15 6.716-15 15 0 8.284 6.716 15 15 15 8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15zm0 27c-6.627 0-12-5.373-12-12s5.373-12 12-12 12 5.373 12 12-5.373 12-12 12z" fill="url(#logoGradient)" />
+  
+  <path d="M30 20c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" fill="url(#logoGradient)" opacity="0.7" />
+  
+  <!-- Web threads -->
+  <line x1="30" y1="20" x2="20" y2="15" stroke="url(#logoGradient)" stroke-width="1" />
+  <line x1="30" y1="20" x2="40" y2="15" stroke="url(#logoGradient)" stroke-width="1" />
+  <line x1="30" y1="20" x2="15" y2="20" stroke="url(#logoGradient)" stroke-width="1" />
+  <line x1="30" y1="20" x2="45" y2="20" stroke="url(#logoGradient)" stroke-width="1" />
+  <line x1="30" y1="20" x2="20" y2="40" stroke="url(#logoGradient)" stroke-width="1" />
+  <line x1="30" y1="20" x2="40" y2="40" stroke="url(#logoGradient)" stroke-width="1" />
+  
+  <!-- Small Spider -->
+  <circle cx="50" cy="25" r="3" fill="#0dcaf0" />
+  <line x1="50" y1="25" x2="55" y2="20" stroke="#0dcaf0" stroke-width="1" />
+  <line x1="50" y1="25" x2="55" y2="30" stroke="#0dcaf0" stroke-width="1" />
+  <line x1="50" y1="25" x2="45" y2="20" stroke="#0dcaf0" stroke-width="1" />
+  <line x1="50" y1="25" x2="45" y2="30" stroke="#0dcaf0" stroke-width="1" />
+  
+  <!-- Text -->
+  <text x="65" y="32" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="url(#logoGradient)">PriyaQubit</text>
+  <text x="65" y="48" font-family="Arial, sans-serif" font-size="14" fill="#adb5bd">Web Scraper</text>
+</svg>

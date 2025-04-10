@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+
+{% block title %}Help & Documentation - PriyaQubit{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2><i class="fas fa-question-circle me-2"></i>Help & Documentation</h2>
+        <p class="lead">Learn how to use the PriyaQubit Web Scraper effectively</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <!-- Navigation -->
+        <div class="card bg-dark sticky-top" style="top: 80px;">
+            <div class="card-header bg-primary bg-opacity-75">
+                <h4 class="card-title mb-0 text-white">Contents</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    <a href="#getting-started" class="list-group-item list-group-item-action bg-dark">Getting Started</a>
+                    <a href="#scraping-options" class="list-group-item list-group-item-action bg-dark">Scraping Options</a>
+                    <a href="#selectors" class="list-group-item list-group-item-action bg-dark">Working with Selectors</a>
+                    <a href="#visualization" class="list-group-item list-group-item-action bg-dark">Data Visualization</a>
+                    <a href="#exporting" class="list-group-item list-group-item-action bg-dark">Exporting Data</a>
+                    <a href="#troubleshooting" class="list-group-item list-group-item-action bg-dark">Troubleshooting</a>
+                    <a href="#faq" class="list-group-item list-group-item-action bg-dark">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <!-- Getting Started Section -->
+        <div id="getting-started" class="card bg-dark mb-4">
+            <div class="card-header bg-primary bg-opacity-25">
+                <h3 class="card-title mb-0">Getting Started</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>What is PriyaQubit Web Scraper?</h4>
+                    <p>PriyaQubit Web Scraper is a powerful web scraping application that allows you to extract, visualize, and manage data from any website. It uses the popular Python library BeautifulSoup for parsing HTML content.</p>
+                    
+                    <p>With this dashboard, you can:</p>
+                    <ul>
+                        <li>Extract specific elements from webpages using various selectors</li>
+                        <li>Visualize the extracted data through interactive charts</li>
+                        <li>Export the data in CSV or JSON formats</li>
+                        <li>Maintain a history of your scraping sessions</li>
+                        <li>Search and filter through your scraped content</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h4>Basic Workflow</h4>
+                    <ol>
+                        <li><strong>Enter a URL</strong> - Start by entering the website URL you want to scrape</li>
+                        <li><strong>Choose selectors</strong> - Select what type of elements you want to extract</li>
+                        <li><strong>Start scraping</strong> - Click the "Start Scraping" button to begin the process</li>
+                        <li><strong>View results</strong> - Explore the extracted data in table or card view</li>
+                        <li><strong>Analyze and export</strong> - Use the visualizations to analyze data and export if needed</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scraping Options Section -->
+        <div id="scraping-options" class="card bg-dark mb-4">
+            <div class="card-header bg-info bg-opacity-25">
+                <h3 class="card-title mb-0">Scraping Options</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>Target URL</h4>
+                    <p>Enter the complete URL of the webpage you want to scrape. Make sure to include the protocol (http:// or https://).</p>
+                    <p><strong>Example:</strong> https://example.com/page.html</p>
+                </div>
+                
+                <div class="help-section">
+                    <h4>Session Name</h4>
+                    <p>Giving your scraping session a descriptive name helps you identify it later in your history. If left blank, the dashboard will use the page title as the session name.</p>
+                </div>
+                
+                <div class="help-section">
+                    <h4>Error Handling</h4>
+                    <p>The dashboard handles various errors that might occur during scraping:</p>
+                    <ul>
+                        <li>Invalid URLs</li>
+                        <li>Connection timeouts</li>
+                        <li>HTTP errors (404, 403, etc.)</li>
+                        <li>Parsing errors</li>
+                    </ul>
+                    <p>When an error occurs, the session will be marked as "failed" and an error message will be displayed.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Selectors Section -->
+        <div id="selectors" class="card bg-dark mb-4">
+            <div class="card-header bg-warning bg-opacity-25">
+                <h3 class="card-title mb-0">Working with Selectors</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>Types of Selectors</h4>
+                    <p>The dashboard supports several types of selectors to help you target specific elements:</p>
+                    
+                    <div class="table-responsive mt-3">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Selector Type</th>
+                                    <th>Description</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>HTML Tag</td>
+                                    <td>Selects all elements of a specific HTML tag</td>
+                                    <td><code>div</code>, <code>p</code>, <code>a</code></td>
+                                </tr>
+                                <tr>
+                                    <td>CSS Class</td>
+                                    <td>Selects elements with a specific CSS class</td>
+                                    <td><code>container</code>, <code>nav-item</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Element ID</td>
+                                    <td>Selects an element with a specific ID</td>
+                                    <td><code>header</code>, <code>main-content</code></td>
+                                </tr>
+                                <tr>
+                                    <td>CSS Selector</td>
+                                    <td>Uses CSS selector syntax for complex selections</td>
+                                    <td><code>div.container > p</code>, <code>#header h1</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h4>Tips for Effective Selection</h4>
+                    <ul>
+                        <li><strong>Start broad, then narrow down</strong> - Begin with general selectors (like a tag) and refine as needed</li>
+                        <li><strong>Inspect the page</strong> - Use your browser's developer tools to identify the right selectors</li>
+                        <li><strong>Target unique identifiers</strong> - Classes and IDs are often more reliable than generic tags</li>
+                        <li><strong>Combine selectors</strong> - Use CSS selectors for more precise targeting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Visualization Section -->
+        <div id="visualization" class="card bg-dark mb-4">
+            <div class="card-header bg-success bg-opacity-25">
+                <h3 class="card-title mb-0">Data Visualization</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>Available Charts</h4>
+                    <p>The dashboard provides visual representations of your scraped data:</p>
+                    <ul>
+                        <li><strong>Element Types Chart</strong> - Shows the distribution of different HTML elements in your results</li>
+                        <li><strong>Content Length Chart</strong> - Displays the distribution of content length across the scraped elements</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h4>Data Views</h4>
+                    <p>You can view your scraped data in two formats:</p>
+                    <ul>
+                        <li><strong>Table View</strong> - A structured table showing all scraped items</li>
+                        <li><strong>Card View</strong> - A more visual representation with each item in its own card</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h4>Filtering Data</h4>
+                    <p>Use the filter input box to quickly search through your scraped content. The filter works in real-time, showing only items that match your search term.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exporting Section -->
+        <div id="exporting" class="card bg-dark mb-4">
+            <div class="card-header bg-danger bg-opacity-25">
+                <h3 class="card-title mb-0">Exporting Data</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>Export Formats</h4>
+                    <p>The dashboard allows you to export your scraped data in two formats:</p>
+                    <ul>
+                        <li><strong>CSV (Comma-Separated Values)</strong> - Ideal for spreadsheet applications like Excel</li>
+                        <li><strong>JSON (JavaScript Object Notation)</strong> - Better for programmatic access and data processing</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h4>How to Export</h4>
+                    <p>To export your data:</p>
+                    <ol>
+                        <li>Navigate to the visualization page for your scraping session</li>
+                        <li>Click the "Export" dropdown button in the top-right corner</li>
+                        <li>Select your desired format (CSV or JSON)</li>
+                        <li>The file will be downloaded to your device</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div id="troubleshooting" class="card bg-dark mb-4">
+            <div class="card-header bg-secondary bg-opacity-25">
+                <h3 class="card-title mb-0">Troubleshooting</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>Common Issues</h4>
+                    <div class="accordion" id="troubleshootingAccordion">
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    No elements found with the specified selector
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#troubleshootingAccordion">
+                                <div class="accordion-body">
+                                    <p>This often happens when the selector doesn't match any elements on the page. Try the following:</p>
+                                    <ul>
+                                        <li>Check that your selector is correctly formatted</li>
+                                        <li>Try a more general selector (like a common HTML tag)</li>
+                                        <li>Verify the structure of the page using browser developer tools</li>
+                                        <li>Some websites load content dynamically with JavaScript, which might not be captured by the scraper</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Connection or timeout errors
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#troubleshootingAccordion">
+                                <div class="accordion-body">
+                                    <p>Connection issues can occur for various reasons:</p>
+                                    <ul>
+                                        <li>Check your internet connection</li>
+                                        <li>The target website might be down or blocking automated requests</li>
+                                        <li>Try again later, as the site might be experiencing high traffic</li>
+                                        <li>Some websites have anti-scraping measures that might block requests</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Access denied (403 Forbidden) errors
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#troubleshootingAccordion">
+                                <div class="accordion-body">
+                                    <p>Some websites actively prevent scraping. When you encounter a 403 Forbidden error:</p>
+                                    <ul>
+                                        <li>Be aware that the website might have terms of service that prohibit scraping</li>
+                                        <li>Consider looking for an official API provided by the website</li>
+                                        <li>Respect robots.txt files and website terms of service</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div id="faq" class="card bg-dark mb-4">
+            <div class="card-header bg-primary bg-opacity-25">
+                <h3 class="card-title mb-0">Frequently Asked Questions</h3>
+            </div>
+            <div class="card-body">
+                <div class="help-section">
+                    <h4>General Questions</h4>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="faqHeadingOne">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="false" aria-controls="faqCollapseOne">
+                                    Is web scraping legal?
+                                </button>
+                            </h2>
+                            <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Web scraping exists in a legal gray area that varies by jurisdiction. Generally:</p>
+                                    <ul>
+                                        <li>Scraping publicly available data is often considered legal</li>
+                                        <li>Always check a website's Terms of Service before scraping</li>
+                                        <li>Respect robots.txt files that indicate which parts of a site can be crawled</li>
+                                        <li>Avoid overloading servers with too many requests</li>
+                                        <li>Never use scraped data for harmful or illicit purposes</li>
+                                    </ul>
+                                    <p>This tool is provided for educational purposes. Users are responsible for ensuring their scraping activities comply with applicable laws and website policies.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="faqHeadingTwo">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                                    Can I scrape websites that require login?
+                                </button>
+                            </h2>
+                            <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>The current version of the dashboard does not support scraping websites that require authentication. It can only scrape publicly accessible pages.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="faqHeadingThree">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                                    How long are scraping sessions stored?
+                                </button>
+                            </h2>
+                            <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Scraping sessions are stored indefinitely until you manually delete them. You can manage your sessions from the History page.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header" id="faqHeadingFour">
+                                <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
+                                    Can I schedule recurring scraping jobs?
+                                </button>
+                            </h2>
+                            <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqHeadingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>The current version does not support scheduling or automation. Each scrape must be manually initiated.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

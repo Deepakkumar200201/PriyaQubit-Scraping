@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}PriyaQubit - Data Visualization - {{ session.name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .data-table-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<input type="hidden" id="session_id" value="{{ session.id }}">
+
+<!-- Session Info Header -->
+<div class="card bg-dark mb-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="mb-2">{{ session.name }}</h2>
+                <p class="text-muted mb-1">
+                    <i class="fas fa-globe me-1"></i> <a href="{{ session.url }}" target="_blank" class="text-decoration-none">{{ session.url }}</a>
+                </p>
+                <div class="d-flex align-items-center">
+                    <span class="badge rounded-pill status-{{ session.status }} me-2">{{ session.status }}</span>
+                    <span class="text-muted">{{ session.timestamp.strftime('%Y-%m-%d %H:%M') }}</span>
+                    {% if session.selector_type and session.selector_value %}
+                    <span class="ms-3 element-tag">
+                        {{ session.selector_type }}: {{ session.selector_value }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="btn-group mb-2">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-file-export me-1"></i> Export
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="javascript:exportData('csv')"><i class="fas fa-file-csv me-2"></i> CSV</a></li>
+                        <li><a class="dropdown-item" href="javascript:exportData('json')"><i class="fas fa-file-code me-2"></i> JSON</a></li>
+                    </ul>
+                </div>
+                <a href="{{ url_for('history') }}" class="btn btn-primary ms-2 mb-2">
+                    <i class="fas fa-history me-1"></i> History
+                </a>
+            </div>
+        </div>
+
+        {% if session.error_message %}
+        <div class="alert alert-danger mt-3 mb-0">
+            <i class="fas fa-exclamation-triangle me-2"></i> <strong>Error:</strong> {{ session.error_message }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if search_term %}
+<div class="alert alert-info mb-4">
+    <i class="fas fa-search me-2"></i> Showing {{ search_count }} results for: <strong>{{ search_term }}</strong>
+    <a href="{{ url_for('visualization', session_id=session.id) }}" class="float-end text-decoration-none">Clear search</a>
+</div>
+{% endif %}
+
+<!-- Data Visualization Section -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card bg-dark h-100">
+            <div class="card-header bg-primary bg-opacity-25">
+                <h4 class="card-title mb-0">Element Types</h4>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="element_type_chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card bg-dark h-100">
+            <div class="card-header bg-info bg-opacity-25">
+                <h4 class="card-title mb-0">Content Length Distribution</h4>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="content_length_chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Data Display Section -->
+<div class="card bg-dark mb-4">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <h4 class="mb-0"><i class="fas fa-table me-2"></i>Scraped Data ({{ items|length }} items)</h4>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-filter"></i></span>
+                    <input type="text" class="form-control" id="filter_content" placeholder="Filter results...">
+                </div>
+            </div>
+            <div class="col-md-3 text-md-end">
+                <div class="btn-group" role="group" aria-label="View options">
+                    <button type="button" class="btn btn-outline-secondary active view-toggle-btn" id="table_view_btn" data-view="table">
+                        <i class="fas fa-table me-1"></i> Table
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary view-toggle-btn" id="card_view_btn" data-view="card">
+                        <i class="fas fa-th-large me-1"></i> Cards
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="filter_info" class="alert alert-info py-2 mb-3" style="display: none;"></div>
+
+        {% if items %}
+            <!-- Table View -->
+            <div id="table_view" class="data-table-container">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 70px;">#</th>
+                            <th scope="col" style="width: 120px;">Element</th>
+                            <th scope="col">Content</th>
+                            <th scope="col" style="width: 120px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr class="data-item">
+                            <td>{{ item.index + 1 }}</td>
+                            <td><span class="element-tag">{{ item.element_type or 'unknown' }}</span></td>
+                            <td>
+                                <div class="item-content">{{ item.content }}</div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info copy-content" data-content="content_{{ item.id }}" data-bs-toggle="tooltip" title="Copy content">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span id="content_{{ item.id }}" style="display: none;">{{ item.content }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Card View -->
+            <div id="card_view" class="d-none">
+                <div class="row">
+                    {% for item in items %}
+                    <div class="col-md-6 col-lg-4 mb-3 data-item">
+                        <div class="card h-100 bg-dark">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="element-tag">{{ item.element_type or 'unknown' }}</span>
+                                <span class="badge bg-secondary">#{{ item.index + 1 }}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="content-preview item-content">
+                                    {{ item.content }}
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <small class="text-muted">{{ item.content|length }} characters</small>
+                                <button class="btn btn-sm btn-outline-info copy-content" data-content="content_card_{{ item.id }}" data-bs-toggle="tooltip" title="Copy content">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span id="content_card_{{ item.id }}" style="display: none;">{{ item.content }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+                <h4 class="mb-3">No Data Found</h4>
+                <p class="text-muted mb-4">No elements were found with the specified selector.</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">
+                    <i class="fas fa-redo me-1"></i> Try a Different Selector
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    {% if items %}
+    <div class="card-footer">
+        <form action="{{ url_for('search') }}" method="POST" class="row g-2">
+            <input type="hidden" name="session_id" value="{{ session.id }}">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" name="search_term" placeholder="Search within this session..." required>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/visualization.js') }}"></script>
+{% endblock %}

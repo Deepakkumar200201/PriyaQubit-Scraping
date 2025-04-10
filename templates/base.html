@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PriyaQubit Web Scraper - Professional data extraction tool for structured web content">
+    <meta name="author" content="PriyaQubit">
+    <title>{% block title %}PriyaQubit - Web Scraper Dashboard{% endblock %}</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Page loader -->
+    <div class="page-loader d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <div class="brand-logo me-2">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="PriyaQubit Logo" height="40">
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{{ url_for('index') }}">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/history' in request.path %}active{% endif %}" href="{{ url_for('history') }}">
+                            <i class="fas fa-history"></i> History
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-tools"></i> Tools
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="toolsDropdown">
+                            <li><a class="dropdown-item" href="#scraping-form"><i class="fas fa-spider me-2"></i>Scrape Website</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('history') }}"><i class="fas fa-database me-2"></i>Manage Data</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('help_page') }}"><i class="fas fa-question-circle me-2"></i>Documentation</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/help' in request.path %}active{% endif %}" href="{{ url_for('help_page') }}">
+                            <i class="fas fa-question-circle"></i> Help
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-4">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Alert Container for JavaScript alerts -->
+        <div id="alert_container"></div>
+
+        <!-- Breadcrumb navigation -->
+        <nav aria-label="breadcrumb" class="mt-2 mb-4">
+            <ol class="breadcrumb">
+                {% block breadcrumb %}
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                {% endblock %}
+            </ol>
+        </nav>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="PriyaQubit Logo" height="40" class="me-2">
+                    </div>
+                    <p class="text-muted">A professional web scraping application with an intuitive dashboard for data extraction, visualization, and management.</p>
+                    <div class="d-flex mt-3">
+                        <a href="#" class="text-muted me-3" title="GitHub"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3" title="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3 mt-4 mt-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('index') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1 small"></i> Dashboard</a></li>
+                        <li class="mb-2"><a href="{{ url_for('history') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1 small"></i> History</a></li>
+                        <li class="mb-2"><a href="{{ url_for('help_page') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1 small"></i> Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mt-4 mt-md-0">
+                    <h5 class="mb-3">Developer Resources</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank" class="text-decoration-none text-muted"><i class="fas fa-book me-1"></i> BeautifulSoup Documentation</a></li>
+                        <li class="mb-2"><a href="https://docs.python-requests.org/en/latest/" target="_blank" class="text-decoration-none text-muted"><i class="fas fa-book me-1"></i> Requests Library</a></li>
+                        <li class="mb-2"><a href="https://trafilatura.readthedocs.io/" target="_blank" class="text-decoration-none text-muted"><i class="fas fa-book me-1"></i> Trafilatura Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="text-muted">
+                    <small>&copy; 2025 PriyaQubit Technologies. All rights reserved.</small>
+                </div>
+                <div class="mt-3 mt-md-0">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted small">Privacy Policy</a></li>
+                        <li class="list-inline-item"><span class="text-muted">•</span></li>
+                        <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted small">Terms of Service</a></li>
+                        <li class="list-inline-item"><span class="text-muted">•</span></li>
+                        <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted small">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay d-none">
+        <div class="d-flex flex-column align-items-center">
+            <div class="spinner-border text-primary loading-spinner mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-white">Processing your request...</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Main JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
